@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 
-namespace App.Metrics.MetricRecorderFactory
+namespace App.Metrics.MetricAutoFactory
 {
     public class MetricFactory : IMetricFactory
     {

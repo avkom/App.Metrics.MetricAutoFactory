@@ -2,7 +2,7 @@
 using App.Metrics.Counter;
 using Castle.DynamicProxy;
 
-namespace App.Metrics.MetricRecorderFactory
+namespace App.Metrics.MetricAutoFactory
 {
     public class MetricInterceptor : IInterceptor
     {

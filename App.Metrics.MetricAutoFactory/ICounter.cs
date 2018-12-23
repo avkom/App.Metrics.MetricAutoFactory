@@ -1,4 +1,4 @@
-﻿namespace App.Metrics.MetricRecorderFactory
+﻿namespace App.Metrics.MetricAutoFactory
 {
     public interface ICounter
     {

@@ -1,6 +1,6 @@
 ﻿using App.Metrics.Counter;
 
-namespace App.Metrics.MetricRecorderFactory
+namespace App.Metrics.MetricAutoFactory
 {
     public class Counter : ICounter
     {

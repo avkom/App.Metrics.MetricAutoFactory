@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Castle.DynamicProxy;
 
 namespace App.Metrics.MetricRecorderFactory
 {
-    public class MetricFactory
+    public class MetricFactory : IMetricFactory
     {
-        public MetricFactory()
+        private readonly ProxyGenerator _proxyGenerator;
+        private readonly IInterceptor _metricInterceptor;
+
+        public MetricFactory(IMeasureMetrics measureMetrics)
         {
-            
+            _proxyGenerator = new ProxyGenerator();
+            _metricInterceptor = new MetricInterceptor(measureMetrics);
         }
 
-        public TMetric CreateMetric<TMetric>()
+        public TMetric CreateMetric<TMetric>() where TMetric: class
         {
-            return default(TMetric);
+            return _proxyGenerator.CreateInterfaceProxyWithoutTarget<TMetric>(_metricInterceptor);
         }
     }
 }

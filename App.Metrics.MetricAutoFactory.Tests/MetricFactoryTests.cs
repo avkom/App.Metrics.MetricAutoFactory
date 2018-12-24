@@ -23,14 +23,13 @@ namespace App.Metrics.MetricAutoFactory.Tests
         public void TestCounterIncrement()
         {
             // Arrange
-            _measureCounterMetricsMock
-                .Setup(m => m.Increment(It.IsAny<CounterOptions>(), It.IsAny<MetricTags>(), It.IsAny<long>()));
+            _measureCounterMetricsMock.Setup(m => m.Increment(It.IsAny<CounterOptions>(), It.IsAny<MetricTags>(), It.IsAny<long>()));
             _measureMetricsMock.Setup(m => m.Counter).Returns(_measureCounterMetricsMock.Object);
 
             ITestMetric1 testMetric1 = _metricFactory.CreateMetric<ITestMetric1>();
 
             // Act
-            testMetric1.RequestCount("endoint1", 200).Increment(5);
+            testMetric1.RequestCount("endpoint1", 200).Increment(5);
 
             // Assert
             _measureCounterMetricsMock.VerifyAll();

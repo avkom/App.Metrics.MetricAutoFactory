@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using App.Metrics.Counter;
 using Castle.DynamicProxy;
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace App.Metrics.MetricAutoFactory
 {
     public class MetricInterceptor : IInterceptor
     {
-        private IMeasureMetrics _measureMetrics;
+        private readonly IMeasureMetrics _measureMetrics;
 
         public MetricInterceptor(IMeasureMetrics measureMetrics)
         {
@@ -15,7 +16,7 @@ namespace App.Metrics.MetricAutoFactory
 
         public void Intercept(IInvocation invocation)
         {
-            if (invocation.Method.ReturnType is ICounter)
+            if (invocation.Method.ReturnType == typeof(ICounter))
             {
                 CounterOptions counterOptions = new CounterOptions
                 {
@@ -26,8 +27,6 @@ namespace App.Metrics.MetricAutoFactory
                 MetricTags metricTags = new MetricTags(tagKeys, tagValues);
                 invocation.ReturnValue = new Counter(_measureMetrics.Counter, counterOptions, metricTags);
             }
-
-            invocation.Proceed();
         }
     }
 }

@@ -7,10 +7,10 @@ namespace App.Metrics.MetricAutoFactory
         private readonly ProxyGenerator _proxyGenerator;
         private readonly IInterceptor _metricInterceptor;
 
-        public MetricFactory(IMeasureMetrics measureMetrics)
+        public MetricFactory(IMetrics metrics)
         {
             _proxyGenerator = new ProxyGenerator();
-            _metricInterceptor = new MetricInterceptor(measureMetrics);
+            _metricInterceptor = new MetricInterceptor(metrics.Provider);
         }
 
         public TMetric CreateMetric<TMetric>() where TMetric: class

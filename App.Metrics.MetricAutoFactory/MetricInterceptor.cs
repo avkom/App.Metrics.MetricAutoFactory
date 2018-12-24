@@ -7,11 +7,11 @@ namespace App.Metrics.MetricAutoFactory
 {
     public class MetricInterceptor : IInterceptor
     {
-        private readonly IMeasureMetrics _measureMetrics;
+        private readonly IProvideMetrics _metricsProvider;
 
-        public MetricInterceptor(IMeasureMetrics measureMetrics)
+        public MetricInterceptor(IProvideMetrics metricsProvider)
         {
-            _measureMetrics = measureMetrics;
+            _metricsProvider = metricsProvider;
         }
 
         public void Intercept(IInvocation invocation)
@@ -25,7 +25,7 @@ namespace App.Metrics.MetricAutoFactory
                 string[] tagKeys = invocation.Method.GetParameters().Select(parameter => parameter.Name).ToArray();
                 string[] tagValues = invocation.Arguments.Select(argument => argument.ToString()).ToArray();
                 MetricTags metricTags = new MetricTags(tagKeys, tagValues);
-                invocation.ReturnValue = new Counter(_measureMetrics.Counter, counterOptions, metricTags);
+                invocation.ReturnValue = _metricsProvider.Counter.Instance(counterOptions, metricTags);
             }
         }
     }

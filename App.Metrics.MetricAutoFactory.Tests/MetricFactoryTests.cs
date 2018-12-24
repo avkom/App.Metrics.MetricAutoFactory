@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using App.Metrics.Counter;
 
@@ -33,6 +34,21 @@ namespace App.Metrics.MetricAutoFactory.Tests
 
             // Assert
             _measureCounterMetricsMock.VerifyAll();
+
+            Assert.AreEqual(1, _measureCounterMetricsMock.Invocations.Count);
+            CounterOptions counterOptions = (CounterOptions) _measureCounterMetricsMock.Invocations[0].Arguments[0];
+            Assert.AreEqual("RequestCount", counterOptions.Name);
+
+            MetricTags metricTags = (MetricTags) _measureCounterMetricsMock.Invocations[0].Arguments[1];
+            Assert.AreEqual(2, metricTags.Keys.Length);
+            Assert.AreEqual("endpoint", metricTags.Keys[0]);
+            Assert.AreEqual("httpStatus", metricTags.Keys[1]);
+
+            Assert.AreEqual(2, metricTags.Values.Length);
+            Assert.AreEqual("endpoint1", metricTags.Values[0]);
+            Assert.AreEqual("200", metricTags.Values[1]);
+
+            Assert.AreEqual(5L, _measureCounterMetricsMock.Invocations[0].Arguments[2]);
         }
 
         public interface ITestMetric1

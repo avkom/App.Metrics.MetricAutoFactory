@@ -43,7 +43,7 @@ public class BooksController : Controller
 IMetrics metrics = AppMetrics.CreateDefaultBuilder().Build();
 IMetricsAutoFactory metricsAutoFactory = new MetricsAutoFactory(metrics.Measure);
 
-// MetricsAutoFactory automaticaly generates an implementation of IMyMetrics  
+// MetricsAutoFactory automatically generates an implementation of IMyMetrics.
 IMyMetrics myMetrics = metricsAutoFactory.CreateMetric<IMyMetrics>();
 
 
